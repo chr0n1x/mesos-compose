@@ -46,6 +46,17 @@ machine's name:
 export DOCKER_IP=$(docker-machine ip dev)
 ```
 
+If you have [direnv](https://direnv.net/) installed and configured for your
+shell, then you can copy `.envrc.sample` to `.envrc` and optionally set
+`MESOS_COMPOSE_DOCKER_MACHINE_NAME` if you use Docker Machine.
+This `.envrc` will do the following when you `cd` into the dir:
+
+- If `MESOS_COMPOSE_DOCKER_MACHINE_NAME` is set, then source its config (`eval
+  $(docker-machine env $MESOS_COMPOSE_DOCKER_MACHINE_NAME)).
+
+- Set `DOCKER_IP` using `DOCKER_HOST` if it's set, defaulting to `127.0.0.1` if
+  it's not set.
+
 Run your cluster in the background (equivalent to `docker-compose up -d`):
 
 ```
