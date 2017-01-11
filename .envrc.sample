@@ -1,0 +1,10 @@
+# Sample .envrc file for direnv (https://direnv.net/)
+# To use this, copy it to .envrc and edit to taste.
+# Also make sure that you have configured direnv for your shell.
+
+if [ ! -z "$MESOS_COMPOSE_DOCKER_MACHINE_NAME" ]; then
+  eval $(docker-machine env $MESOS_COMPOSE_DOCKER_MACHINE_NAME)
+fi
+
+# Set DOCKER_IP by parsing $DOCKER_HOST and default to 127.0.0.1 if DOCKER_HOST is not set
+export DOCKER_IP=$(echo ${DOCKER_HOST:-tcp://127.0.0.1:2376} | cut -d/ -f3 | cut -d: -f1)
