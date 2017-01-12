@@ -20,8 +20,8 @@ Note that you need `docker-compose` 1.6.0 or newer:
 
 ## Compatibility
 
-This project should work out of the box with docker machine. It requires
-host networking to work, so docker for mac won't work.
+This project should work out of the box with [Docker Machine](https://docs.docker.com/machine/).
+It requires host networking to work, so **Docker for Mac will NOT work**.
 
 If you have docker built dynamically, which is the case on most distros,
 you should download and bind-mount statically linked docker client:
