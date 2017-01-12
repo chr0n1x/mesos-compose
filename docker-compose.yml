@@ -51,6 +51,7 @@ services:
   #     MESOS_RESOURCES: ports(*):[12000-12999]
   #     MESOS_HOSTNAME: ${DOCKER_IP}
   #     LIBPROCESS_IP: ${DOCKER_IP}
+  #     MESOS_WORK_DIR: /tmp/mesos
   #   volumes:
   #     - /sys/fs/cgroup:/sys/fs/cgroup
   #     - /usr/local/bin/docker:/usr/bin/docker
