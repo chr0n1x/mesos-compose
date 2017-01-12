@@ -4,7 +4,7 @@ MARATHON_CURL = curl --silent --show-error -X PUT -H "Content-type: application/
 DOCKER_IP ?= 127.0.0.1
 export DOCKER_IP
 
-.PHONY: run
+.PHONY: deploy
 deploy:
 	$(YAML2JSON) < apps/$(APP).yaml | $(MARATHON_CURL) http://$(DOCKER_IP):8080/v2/groups | jq .
 
