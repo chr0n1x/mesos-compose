@@ -9,7 +9,7 @@ services:
       ZK_ID: 1
 
   master:
-    image: mesosphere/mesos-master:1.0.1-2.0.93.ubuntu1404
+    image: mesosphere/mesos-master:1.2.0-rc2
     network_mode: host
     environment:
       MESOS_ZK: zk://127.0.0.1:2181/mesos
