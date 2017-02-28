@@ -1,0 +1,69 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+cd "$DIR"
+echo "mesos-compose running from $DIR"
+echo
+[ -f .envrc ] && source .envrc
+
+MASTER_URL="http://$DOCKER_IP:5050"
+SLAVE1_URL="http://$DOCKER_IP:5051"
+SLAVE1_STATE_URL="$SLAVE1_URL/state"
+SLAVE2_URL="http://$DOCKER_IP:5052"
+SLAVE2_STATE_URL="$SLAVE2_URL/state"
+MARATHON_URL="http://$DOCKER_IP:8080"
+CHRONOS_URL="http://$DOCKER_IP:8888"
+
+if [ "$1" = "open" ]; then
+    case "$2" in
+        master)
+            exec python -c "import webbrowser; webbrowser.open('$MASTER_URL')"
+            ;;
+        slave|slave1)
+            exec python -c "import webbrowser; webbrowser.open('$SLAVE1_STATE_URL')"
+            ;;
+        slave2)
+            exec python -c "import webbrowser; webbrowser.open('$SLAVE2_STATE_URL')"
+            ;;
+        marathon)
+            exec python -c "import webbrowser; webbrowser.open('$MARATHON_URL')"
+            ;;
+        chronos)
+            exec python -c "import webbrowser; webbrowser.open('$CHRONOS_URL')"
+            ;;
+        *)
+            echo "open: Unknown app: \"$2\"; choices are: master, slave1, marathon, chronos" 1>&2
+            exit 1
+            ;;
+    esac
+elif [ "$1" = "get" ]; then
+    ENDPOINT="${3:-ping}"
+
+    case "$2" in
+        master)
+            ENDPOINT="${3:-health}"
+            exec http ${MASTER_URL}/${ENDPOINT}
+            ;;
+        slave|slave1)
+            ENDPOINT="${3:-health}"
+            exec http ${SLAVE1_URL}/${ENDPOINT}
+            ;;
+        slave2)
+            ENDPOINT="${3:-health}"
+            exec http ${SLAVE2_URL}/${ENDPOINT}
+            ;;
+        marathon)
+            exec http ${MARATHON_URL}/${ENDPOINT}
+            ;;
+        chronos)
+            exec http ${CHRONOS_URL}/${ENDPOINT}
+            ;;
+        *)
+            echo "open: Unknown app: \"$2\"; choices are: master, slave1, marathon, chronos" 1>&2
+            exit 1
+            ;;
+    esac
+fi
+
+docker-compose "$@"
